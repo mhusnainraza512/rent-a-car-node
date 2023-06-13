@@ -1,0 +1,30 @@
+{
+  "name": "rent-a-car",
+  "version": "1.0.0",
+  "description": "this is the project which is handle to rent the car.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server"
+  },
+  "author": "Muhammad Husnain Raza",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "express-fileupload": "^1.4.0",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^6.7.0",
+    "helmet": "^7.0.0",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.2.3",
+    "nodemailer": "^6.9.3",
+    "nodemon": "^2.0.22",
+    "path": "^0.12.7",
+    "xss-clean": "^0.1.4"
+  }
+}

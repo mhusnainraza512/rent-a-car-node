@@ -18,6 +18,7 @@ const connectDB = require('./config/db');
 // const courses = require('./routes/courses'); //include file to the server.js file
 const auth = require('./routes/auth'); //include file to the server.js file
 const users = require('./routes/users'); //include file to the server.js file
+const companies = require('./routes/companies'); //include file to the server.js file
 // const reviews = require('./routes/reviews'); //include file to the server.js file
 
 // load env vars
@@ -74,6 +75,7 @@ app.use(cors());
 // app.use('/api/v1/courses', courses); //first paramerter is base_url and second is file_path
 app.use('/api/v1/auth', auth); //first paramerter is base_url and second is file_path
 app.use('/api/v1/users', users); //first paramerter is base_url and second is file_path
+app.use('/api/v1/companies', companies); //first paramerter is base_url and second is file_path
 // app.use('/api/v1/reviews', reviews); //first paramerter is base_url and second is file_path
 
 app.use(errorHandler);

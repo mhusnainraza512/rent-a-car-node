@@ -91,6 +91,9 @@ const UserDetailSchema = mongoose.Schema({
   mother_name: {
     type: String,
   },
+  visa_category: {
+    type: String,
+  },
   category: {
     type: String,
   },

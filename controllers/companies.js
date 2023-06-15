@@ -1,5 +1,6 @@
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
+const User = require('../models/User');
 const Company = require('../models/Company');
 
 // @desc Get all companies
@@ -13,12 +14,16 @@ exports.getCompanies = asyncHandler(async (req, res, next) => {
 // @route Post /api/v1/companies
 // @access Private/Admin
 exports.createCompany = asyncHandler(async (req, res, next) => {
-    const company = await Company.create(req.body);
+    const user = await User.create(req.body);
 
+    req.body.user = user.id;
+    
     // make sure user is bootcamp owner
     if(req.user.role != 'admin'){
-        return next(new ErrorResponse(`User ${req.params.id} is not authorized to delete this company`, 401));
+        return next(new ErrorResponse(`User ${req.params.id} is not authorized to create this company`, 401));
     }
+
+    const company = await Company.create(req.body);
     
     res.status(201).json({
         success: true,

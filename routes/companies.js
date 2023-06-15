@@ -16,7 +16,7 @@ const advancedResults =  require('../middleware/advancedResults')
 const {protect, authorize} = require('../middleware/auth');
 
 router.route('/')
-.get(advancedResults(Company), getCompanies)
+.get(advancedResults(Company, "user"), getCompanies)
 .post(protect, authorize('admin'), createCompany);
 
 router.route('/:id')

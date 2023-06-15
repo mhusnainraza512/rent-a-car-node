@@ -1,6 +1,7 @@
 const ErrorResponse = require('../utils/errorResponse');
 const asyncHandler = require('../middleware/async');
 const User = require('../models/User.js');
+const UserDetail = require('../models/UserDetail.js');
 
 // @desc Get all users
 // @route Get /api/v1/auth/users
@@ -29,6 +30,7 @@ exports.getUser = asyncHandler(async (req, res, next) => {
 // @route Post /api/v1/auth/users
 // @access Private/Admin
 exports.createUser = asyncHandler(async (req, res, next) => {
+    req.body.name = req.body.name_en;
     const user  = await User.create(req.body);
 
     res.status(201).json({

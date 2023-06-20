@@ -41,7 +41,7 @@ exports.getCompany = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse(`Company not found with id of ${req.params.id}`, 400));
     }
 
-    res.status(201).json({
+    res.status(200).json({
         success: true,
         data: company
     })

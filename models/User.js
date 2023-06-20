@@ -22,6 +22,9 @@ const UserSchema = mongoose.Schema({
     enum: ["customer", "employee", "company"],
     default: "employee",
   },
+  userDetail:{
+    type: Object
+  },
   password: {
     type: String,
     required: [true, "please add a password"],
@@ -33,10 +36,6 @@ const UserSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-  },
-  userdetail: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserDetail'
   }
 });
 

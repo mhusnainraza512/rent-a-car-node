@@ -86,15 +86,11 @@ exports.logout = asyncHandler(async (req, res, next) => {
 exports.getMe = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user.id);
   const userDetail = await UserDetail.findOne({ user: user.id });
-  if (req.user.role == "admin") {
-    var data = { user };
-  } else {
-    var data = { user, userDetail };
-  }
+  user.userDetail = userDetail ?? {};
 
   res.status(200).json({
     success: true,
-    data: data,
+    data: user,
   });
 });
 

@@ -103,3 +103,36 @@ exports.deleteCompany = asyncHandler(async (req, res, next) => {
         data: {}
     });
 });
+
+// @desc Update company
+// @route PUT /api/v1/companies/:id/status
+// @access Private/Admin
+exports.updateStatus = asyncHandler(async (req, res, next) => {
+    const company = await Company.findById(req.params.id);
+
+    if (!company) {
+        return next(new ErrorResponse(`Company not found with id of ${req.params.id}`, 400));
+    }
+
+    // make sure user is bootcamp owner
+    if(req.user.role != 'admin'){
+        return next(new ErrorResponse(`User ${req.params.id} is not authorized to delete this company`, 401));
+    }
+
+    var id = { _id: req.params.id }
+
+    const update = {
+        $unset: { uniqueField: 1 }, // Remove the unique field
+        $set: { otherField: req.body } // Set other fields to be updated
+      };
+
+    company = await User.findOneAndUpdate(id, update, {
+        new: true,
+        runValidators: true
+    });
+
+    res.status(200).json({
+        success: true,
+        data: company
+    });
+});

@@ -5,7 +5,8 @@ const {
     createCompany,
     getCompany,
     updateCompany,
-    deleteCompany
+    deleteCompany,
+    updateStatus
 } = require('../controllers/companies');
 
 const Company = require('../models/Company');
@@ -23,5 +24,8 @@ router.route('/:id')
 .get(getCompany)
 .put(protect, authorize('admin'), updateCompany)
 .delete(protect, authorize('admin'), deleteCompany);
+
+router.route('/:id/status')
+.put(protect, authorize("admin"), updateStatus)
 
 module.exports = router;

@@ -45,18 +45,37 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 exports.updateUser = asyncHandler(async (req, res, next) => {
     let user  = await User.findById(req.params.id);
 
+    var id = { _id: req.params.id }
+
     if (!user) {
         return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 400));
     }
 
-    user = await User.findOneAndUpdate(req.params.id, req.body, {
+    const update = {
+        $unset: { uniqueField: 1 }, // Remove the unique field
+        $set: { otherField: req.body } // Set other fields to be updated
+      };
+
+    user = await User.findOneAndUpdate(id, update, {
         new: true,
         runValidators: true
     });
 
+    if (user.role == undefined || user.role == "employee" || user.role == "customer") {
+        var id = { _id: req.params.id }
+
+        var userDetail = await UserDetail.findOneAndUpdate(id, update, {
+            new: true,
+            runValidators: true
+        });
+    }
+
     res.status(200).json({
         success: true,
-        data: user
+        data: {
+            user,
+            userDetail
+        }
     });
 });
 

@@ -50,6 +50,10 @@ const CompanySchema = mongoose.Schema({
   comment: {
     type: String,
   },
+  is_active: {
+    type: Boolean,
+    default: true
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",

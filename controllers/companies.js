@@ -114,12 +114,7 @@ exports.updateStatus = asyncHandler(async (req, res, next) => {
 
     var id = { _id: req.params.id }
 
-    const update = {
-        $unset: { uniqueField: 1 }, // Remove the unique field
-        $set: { otherField: req.body } // Set other fields to be updated
-      };
-
-    company = await User.findOneAndUpdate(id, update, {
+    company = await User.findOneAndUpdate(id, req.body, {
         new: true,
         runValidators: true
     });

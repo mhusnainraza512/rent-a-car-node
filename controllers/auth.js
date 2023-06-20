@@ -34,6 +34,7 @@ exports.register = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     token: token,
+    user: user
   });
 });
 
@@ -223,5 +224,6 @@ const sendTokenResponse = (user, statusCode, res) => {
   res.status(statusCode).cookie("token", token, options).json({
     success: true,
     token: token,
+    user: user
   });
 };

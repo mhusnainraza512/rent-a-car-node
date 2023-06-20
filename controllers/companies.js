@@ -53,8 +53,6 @@ exports.getCompany = asyncHandler(async (req, res, next) => {
 exports.updateCompany = asyncHandler(async (req, res, next) => {
     let company  = await Company.findById(req.params.id);
 
-    var id = { _id: req.params.id }
-
     if (!company) {
         return next(new ErrorResponse(`Company not found with id of ${req.params.id}`, 400));
     }
@@ -64,12 +62,7 @@ exports.updateCompany = asyncHandler(async (req, res, next) => {
         return next(new ErrorResponse(`User ${req.params.id} is not authorized to update this company`, 401));
     }
 
-    const update = {
-        $unset: { uniqueField: 1 }, // Remove the unique field
-        $set: { otherField: req.body } // Set other fields to be updated
-      };
-
-    company = await Company.findOneAndUpdate(id, update, {
+    company = await Company.findOneAndUpdate({_id: req.params.id}, req.body, {
         new: true,
         runValidators: true
     });

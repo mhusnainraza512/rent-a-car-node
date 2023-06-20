@@ -14,7 +14,10 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 // @route Get /api/v1/auth/users/:id
 // @access Private/Admin
 exports.getUser = asyncHandler(async (req, res, next) => {
-    const user  = await User.findById(req.params.id).populate('userdetail');
+    const user  = await User.findById(req.params.id).populate({
+        path: 'userdetail',
+        options: { strictPopulate: false }
+      });
 
     if (!user) {
         return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 400));
@@ -45,26 +48,17 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 exports.updateUser = asyncHandler(async (req, res, next) => {
     let user  = await User.findById(req.params.id);
 
-    var id = { _id: req.params.id }
-
     if (!user) {
         return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 400));
     }
 
-    const update = {
-        $unset: { uniqueField: 1 }, // Remove the unique field
-        $set: { otherField: req.body } // Set other fields to be updated
-      };
-
-    user = await User.findOneAndUpdate(id, update, {
+    user = await User.findOneAndUpdate({ _id: req.params.id }, req.body, {
         new: true,
         runValidators: true
     });
 
     if (user.role == undefined || user.role == "employee" || user.role == "customer") {
-        var id = { _id: req.params.id }
-
-        var userDetail = await UserDetail.findOneAndUpdate(id, update, {
+        var userDetail = await UserDetail.findOneAndUpdate({user: req.params.id}, req.body, {
             new: true,
             runValidators: true
         });

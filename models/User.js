@@ -33,6 +33,10 @@ const UserSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
+  },
+  userdetail: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'UserDetail'
   }
 });
 

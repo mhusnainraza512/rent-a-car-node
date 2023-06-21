@@ -9,10 +9,10 @@ const { Types } = mongoose;
 // @route Get /api/v1/auth/users
 // @access Private/Admin
 exports.getUsers = asyncHandler(async (req, res, next) => {
-  const users = await User.find({role: req.body.role});
+  const users = await User.find({ role: req.body.role });
   res.status(200).json({
     success: true,
-    count:users.length,
+    count: users.length,
     data: users,
   });
 });
@@ -21,19 +21,32 @@ exports.getUsers = asyncHandler(async (req, res, next) => {
 // @route Get /api/v1/auth/users/:id
 // @access Private/Admin
 exports.getUser = asyncHandler(async (req, res, next) => {
-  const user = await User.findOne({_id : req.params.id});
-  const userDetail = await UserDetail.findOne({ user: user.id });
-  user.userDetail = userDetail ?? {};
-  if (!user) {
-    return next(
-      new ErrorResponse(`User not found with id of ${req.params.id}`, 400)
-    );
-  }
+  if (
+    req.params.id == "employee" ||
+    req.params.id == "customer" ||
+    req.params.id == "company"
+  ) {
+    const users = await User.find({ role: req.params.id });
+    res.status(200).json({
+      success: true,
+      count: users.length,
+      data: users,
+    });
+  } else {
+    const user = await User.findOne({ _id: req.params.id });
+    const userDetail = await UserDetail.findOne({ user: user.id });
+    user.userDetail = userDetail ?? {};
+    if (!user) {
+      return next(
+        new ErrorResponse(`User not found with id of ${req.params.id}`, 400)
+      );
+    }
 
-  res.status(200).json({
-    success: true,
-    data: user,
-  });
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  }
 });
 
 // @desc Create user

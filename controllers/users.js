@@ -26,7 +26,17 @@ exports.getUser = asyncHandler(async (req, res, next) => {
     req.params.id == "customer" ||
     req.params.id == "company"
   ) {
-    const users = await User.find({ role: req.params.id });
+    var users = await User.find({ role: req.params.id });
+
+    if (req.params.id == "employee" || req.params.id == "customer") {
+      var users = await Promise.all(
+        users.map(async function (user) {
+          let userDetail = await UserDetail.findOne({ user: user.id });
+          return { ...user._doc, userDetail: userDetail };
+        })
+      );
+    }
+
     res.status(200).json({
       success: true,
       count: users.length,
@@ -34,13 +44,16 @@ exports.getUser = asyncHandler(async (req, res, next) => {
     });
   } else {
     const user = await User.findOne({ _id: req.params.id });
-    const userDetail = await UserDetail.findOne({ user: user.id });
-    user.userDetail = userDetail ?? {};
+
     if (!user) {
       return next(
         new ErrorResponse(`User not found with id of ${req.params.id}`, 400)
       );
     }
+
+    const userDetail = await UserDetail.findOne({ user: user.id });
+
+    user.userDetail = userDetail || {};
 
     res.status(200).json({
       success: true,

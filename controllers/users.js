@@ -9,7 +9,12 @@ const { Types } = mongoose;
 // @route Get /api/v1/auth/users
 // @access Private/Admin
 exports.getUsers = asyncHandler(async (req, res, next) => {
-  res.status(200).json(res.advancedResults);
+  const users = await User.find({role: req.body.role});
+  res.status(200).json({
+    success: true,
+    count:users.length,
+    data: users,
+  });
 });
 
 // @desc Get single users

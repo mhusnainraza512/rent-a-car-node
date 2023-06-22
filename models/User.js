@@ -22,6 +22,10 @@ const UserSchema = mongoose.Schema({
     enum: ["customer", "employee", "company"],
     default: "employee",
   },
+  is_active:{
+    type:Boolean,
+    default: true
+  },
   userDetail:{
     type: Object
   },

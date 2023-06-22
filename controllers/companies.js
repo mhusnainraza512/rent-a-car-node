@@ -114,7 +114,7 @@ exports.updateStatus = asyncHandler(async (req, res, next) => {
 
     var id = { _id: req.params.id }
 
-    company = await User.findOneAndUpdate(id, req.body, {
+    company = await Company.findOneAndUpdate(id, req.body, {
         new: true,
         runValidators: true
     });

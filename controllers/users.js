@@ -135,3 +135,31 @@ exports.deleteUser = asyncHandler(async (req, res, next) => {
     data: {},
   });
 });
+
+// @desc Update user status
+// @route PUT /api/v1/users/:id/status
+// @access Private/Admin
+exports.updateStatus = asyncHandler(async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  if (!user) {
+      return next(new ErrorResponse(`User not found with id of ${req.params.id}`, 400));
+  }
+
+  // make sure user is bootcamp owner
+  if(req.user.role != 'admin'){
+      return next(new ErrorResponse(`User ${req.params.id} is not authorized to delete this user`, 401));
+  }
+
+  var id = { _id: req.params.id }
+
+  user = await User.findOneAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true
+  });
+
+  res.status(200).json({
+      success: true,
+      data: company
+  });
+});

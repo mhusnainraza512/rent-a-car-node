@@ -4,7 +4,8 @@ const {
     getUsers,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    updateStatus
 } = require('../controllers/users');
 
 const User = require('../models/User');

@@ -99,7 +99,7 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   ) {
     var userDetail = await UserDetail.findOneAndUpdate(
       { user: req.params.id },
-      req.body,
+      req.body.userDetail,
       {
         new: true,
         runValidators: true,

@@ -105,14 +105,12 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
         runValidators: true,
       }
     );
+    user.userDetail = userDetail;
   }
 
   res.status(200).json({
     success: true,
-    data: {
-      user,
-      userDetail,
-    },
+    data: user,
   });
 });
 

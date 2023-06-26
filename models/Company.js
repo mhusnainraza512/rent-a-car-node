@@ -54,6 +54,10 @@ const CompanySchema = mongoose.Schema({
     type: Boolean,
     default: true
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",

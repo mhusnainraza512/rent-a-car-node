@@ -112,6 +112,10 @@ const UserDetailSchema = mongoose.Schema({
   image: {
     type: String,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: "User",

@@ -14,12 +14,12 @@ const errorHandler = require('./middleware/error');
 const connectDB = require('./config/db');
 
 // Route files
-// const bootcamps = require('./routes/bootcamps'); //include file to the server.js file
-// const courses = require('./routes/courses'); //include file to the server.js file
-const auth = require('./routes/auth'); //include file to the server.js file
-const users = require('./routes/users'); //include file to the server.js file
-const companies = require('./routes/companies'); //include file to the server.js file
-// const reviews = require('./routes/reviews'); //include file to the server.js file
+const auth = require('./routes/auth');
+const users = require('./routes/users');
+const companies = require('./routes/companies');
+const makes = require('./routes/makes');
+const models = require('./routes/models');
+const colors = require('./routes/colors');
 
 // load env vars
 dotenv.config({path:'./config/.env'});
@@ -71,12 +71,12 @@ app.use(hpp());
 app.use(cors());
 
 // Mount routers
-// app.use('/api/v1/bootcamps', bootcamps); //first paramerter is base_url and second is file_path
-// app.use('/api/v1/courses', courses); //first paramerter is base_url and second is file_path
-app.use('/api/v1/auth', auth); //first paramerter is base_url and second is file_path
-app.use('/api/v1/users', users); //first paramerter is base_url and second is file_path
-app.use('/api/v1/companies', companies); //first paramerter is base_url and second is file_path
-// app.use('/api/v1/reviews', reviews); //first paramerter is base_url and second is file_path
+app.use('/api/v1/auth', auth);
+app.use('/api/v1/users', users);
+app.use('/api/v1/companies', companies);
+app.use('/api/v1/makes', makes);
+app.use('/api/v1/models', models);
+app.use('/api/v1/colors', colors);
 
 app.use(errorHandler);
 

@@ -29,11 +29,20 @@ exports.createModel = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const model = await Model.create(req.body);
+  const models = req.body.name;
+  var model = null;
+  if(models.length > 0){
+    models.forEach(async(mod) => {
+      await Model.create({
+        make_id: req.body.make_id,
+        name: mod
+      });
+    });
+  }
 
   res.status(201).json({
     success: true,
-    data: model,
+    data: models,
   });
 });
 

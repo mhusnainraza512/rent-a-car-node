@@ -96,4 +96,9 @@ VehicleSchema.pre('find', function (next) {
   next();
 });
 
+VehicleSchema.pre('findOne', function (next) {
+  this.populate(['color_id', 'make_id', 'model_id']);
+  next();
+});
+
 module.exports = mongoose.model("Vehicle", VehicleSchema);

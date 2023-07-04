@@ -55,4 +55,9 @@ ReservationSchema.pre('find', function (next) {
   next();
 });
 
+ReservationSchema.pre('findOne', function (next) {
+  this.populate(['customer_id', 'vehicle_id']);
+  next();
+});
+
 module.exports = mongoose.model("Reservation", ReservationSchema);

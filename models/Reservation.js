@@ -50,13 +50,8 @@ const ReservationSchema = mongoose.Schema({
   },
 });
 
-ReservationSchema.pre('find', function (next) {
+ReservationSchema.pre(/^find/, function (next) {
   this.populate(['customer_id','vehicle_id']);
-  next();
-});
-
-ReservationSchema.pre('findOne', function (next) {
-  this.populate(['customer_id', 'vehicle_id']);
   next();
 });
 

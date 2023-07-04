@@ -65,12 +65,7 @@ const CompanySchema = mongoose.Schema({
   },
 });
 
-CompanySchema.pre('find', function (next) {
-  this.populate(['user']);
-  next();
-});
-
-CompanySchema.pre('findOne', function (next) {
+CompanySchema.pre(/^find/, function (next) {
   this.populate(['user']);
   next();
 });

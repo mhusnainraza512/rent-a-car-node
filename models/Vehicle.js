@@ -91,12 +91,7 @@ const VehicleSchema = mongoose.Schema({
   },
 });
 
-VehicleSchema.pre('find', function (next) {
-  this.populate(['color_id', 'make_id', 'model_id']);
-  next();
-});
-
-VehicleSchema.pre('findOne', function (next) {
+VehicleSchema.pre(/^find/, function (next) {
   this.populate(['color_id', 'make_id', 'model_id']);
   next();
 });

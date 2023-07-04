@@ -65,4 +65,9 @@ const CompanySchema = mongoose.Schema({
   },
 });
 
+CompanySchema.pre('find', function (next) {
+  this.populate(['user']);
+  next();
+});
+
 module.exports = mongoose.model("Company", CompanySchema);

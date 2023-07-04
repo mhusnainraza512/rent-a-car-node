@@ -6,25 +6,7 @@ const Reservation = require("../models/Reservation");
 // @route Get /api/v1/reservations
 // @access Private/Admin
 exports.getReservations = asyncHandler(async (req, res, next) => {
-  const reservations = await Reservation.find().populate([
-    {
-      path: "customer_id",
-    },
-    {
-      path: "vehicle_id",
-      populate: [
-        {
-          path: "color_id",
-        },
-        {
-          path: "make_id",
-        },
-        {
-          path: "model_id",
-        },
-      ],
-    },
-  ]);
+  const reservations = await Reservation.find();
 
   res.status(200).json({
     success: true,
@@ -59,25 +41,7 @@ exports.createReservation = asyncHandler(async (req, res, next) => {
 // @route Get /api/v1/reservations/:id
 // @access Private/Admin
 exports.getReservation = asyncHandler(async (req, res, next) => {
-  const reservation = await Reservation.findById(req.params.id).populate([
-    {
-      path: "customer_id",
-    },
-    {
-      path: "vehicle_id",
-      populate: [
-        {
-          path: "color_id",
-        },
-        {
-          path: "make_id",
-        },
-        {
-          path: "model_id",
-        },
-      ],
-    },
-  ]);
+  const reservation = await Reservation.findById(req.params.id);
 
   if (!reservation) {
     return next(

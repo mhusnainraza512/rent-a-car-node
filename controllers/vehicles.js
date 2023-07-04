@@ -6,7 +6,7 @@ const Vehicle = require("../models/Vehicle");
 // @route Get /api/v1/vehicles
 // @access Private/Admin
 exports.getVehicles = asyncHandler(async (req, res, next) => {
-  const vehicles = await Vehicle.find().populate(['make_id', 'model_id', 'color_id']);
+  const vehicles = await Vehicle.find();
   
   res.status(200).json({
     success: true,

@@ -50,4 +50,9 @@ const ReservationSchema = mongoose.Schema({
   },
 });
 
+ReservationSchema.pre('find', function (next) {
+  this.populate(['customer_id','vehicle_id']);
+  next();
+});
+
 module.exports = mongoose.model("Reservation", ReservationSchema);

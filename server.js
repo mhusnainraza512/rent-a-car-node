@@ -20,6 +20,7 @@ const companies = require('./routes/companies');
 const makes = require('./routes/makes');
 const models = require('./routes/models');
 const colors = require('./routes/colors');
+const vehicles = require('./routes/vehicles');
 
 // load env vars
 dotenv.config({path:'./config/.env'});
@@ -77,6 +78,7 @@ app.use('/api/v1/companies', companies);
 app.use('/api/v1/makes', makes);
 app.use('/api/v1/models', models);
 app.use('/api/v1/colors', colors);
+app.use('/api/v1/vehicles', vehicles);
 
 app.use(errorHandler);
 

@@ -30,7 +30,6 @@ exports.createModel = asyncHandler(async (req, res, next) => {
   }
 
   const models = req.body.name;
-  var model = null;
   if(models.length > 0){
     models.forEach(async(mod) => {
       await Model.create({

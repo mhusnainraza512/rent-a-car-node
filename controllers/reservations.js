@@ -6,8 +6,26 @@ const Reservation = require("../models/Reservation");
 // @route Get /api/v1/reservations
 // @access Private/Admin
 exports.getReservations = asyncHandler(async (req, res, next) => {
-  const reservations = await Reservation.find().populate(['customer_id', 'vehicle_id']);
-  
+  const reservations = await Reservation.find().populate([
+    {
+      path: "customer_id",
+    },
+    {
+      path: "vehicle_id",
+      populate: [
+        {
+          path: "color_id",
+        },
+        {
+          path: "make_id",
+        },
+        {
+          path: "model_id",
+        },
+      ],
+    },
+  ]);
+
   res.status(200).json({
     success: true,
     count: reservations.length,
@@ -41,11 +59,32 @@ exports.createReservation = asyncHandler(async (req, res, next) => {
 // @route Get /api/v1/reservations/:id
 // @access Private/Admin
 exports.getReservation = asyncHandler(async (req, res, next) => {
-  const reservation = await Reservation.findById(req.params.id);
+  const reservation = await Reservation.findById(req.params.id).populate([
+    {
+      path: "customer_id",
+    },
+    {
+      path: "vehicle_id",
+      populate: [
+        {
+          path: "color_id",
+        },
+        {
+          path: "make_id",
+        },
+        {
+          path: "model_id",
+        },
+      ],
+    },
+  ]);
 
   if (!reservation) {
     return next(
-      new ErrorResponse(`Reservation not found with id of ${req.params.id}`, 400)
+      new ErrorResponse(
+        `Reservation not found with id of ${req.params.id}`,
+        400
+      )
     );
   }
 
@@ -63,7 +102,10 @@ exports.updateReservation = asyncHandler(async (req, res, next) => {
 
   if (!reservation) {
     return next(
-      new ErrorResponse(`Reservation not found with id of ${req.params.id}`, 400)
+      new ErrorResponse(
+        `Reservation not found with id of ${req.params.id}`,
+        400
+      )
     );
   }
 
@@ -77,10 +119,14 @@ exports.updateReservation = asyncHandler(async (req, res, next) => {
     );
   }
 
-  reservation = await Reservation.findOneAndUpdate({ _id: req.params.id }, req.body, {
-    new: true,
-    runValidators: true,
-  });
+  reservation = await Reservation.findOneAndUpdate(
+    { _id: req.params.id },
+    req.body,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
 
   res.status(200).json({
     success: true,
@@ -96,7 +142,10 @@ exports.deleteReservation = asyncHandler(async (req, res, next) => {
 
   if (!reservation) {
     return next(
-      new ErrorResponse(`Reservation not found with id of ${req.params.id}`, 400)
+      new ErrorResponse(
+        `Reservation not found with id of ${req.params.id}`,
+        400
+      )
     );
   }
 

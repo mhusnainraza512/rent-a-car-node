@@ -67,6 +67,9 @@ const VehicleSchema = mongoose.Schema({
   vehicle_category:{
     type: String
   },
+  return_date: {
+    type: String,
+  },
   model_id: {
     type: mongoose.Schema.ObjectId,
     ref: "Model",

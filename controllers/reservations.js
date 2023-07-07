@@ -6,7 +6,16 @@ const Reservation = require("../models/Reservation");
 // @route Get /api/v1/reservations
 // @access Private/Admin
 exports.getReservations = asyncHandler(async (req, res, next) => {
-  const reservations = await Reservation.find();
+  let reservations;
+  const status = req.query.status;
+  const searchByDate = req.query.searchByDate;
+  if(status){
+    reservations = await Reservation.find({reservation_status: status});
+  }else if(searchByDate){
+    reservations = await Reservation.find({created_at: searchByDate});
+  }else{
+    reservations = await Reservation.find()
+  }
 
   res.status(200).json({
     success: true,

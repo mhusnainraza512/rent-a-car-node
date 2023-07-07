@@ -29,6 +29,9 @@ const UserSchema = mongoose.Schema({
   userDetail:{
     type: Object
   },
+  phone: {
+    type: String,
+  },
   password: {
     type: String,
     required: [true, "please add a password"],

@@ -8,13 +8,23 @@ const Reservation = require("../models/Reservation");
 exports.getReservations = asyncHandler(async (req, res, next) => {
   let reservations;
   const status = req.query.status;
-  const searchByDate = req.query.searchByDate;
-  if(status){
-    reservations = await Reservation.find({reservation_status: status});
-  }else if(searchByDate){
-    reservations = await Reservation.find({created_at: searchByDate});
-  }else{
-    reservations = await Reservation.find()
+  let today = req.query.today;
+  if (status) {
+    reservations = await Reservation.find({ reservation_status: status }).sort({
+      createdAt: -1,
+    });
+  } else if (today) {
+    const startDate = new Date();
+    startDate.setHours(0, 0, 0, 0);
+
+    const endDate = new Date();
+    endDate.setHours(23, 59, 59, 999);
+
+    reservations = await Reservation.find({
+      createdAt: { $gte: startDate, $lte: endDate },
+    }).sort({ createdAt: -1 });
+  } else {
+    reservations = await Reservation.find().sort({ createdAt: -1 });
   }
 
   res.status(200).json({

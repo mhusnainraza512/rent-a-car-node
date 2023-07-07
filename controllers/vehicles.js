@@ -7,7 +7,7 @@ const Vehicle = require("../models/Vehicle");
 // @access Private/Admin
 exports.getVehicles = asyncHandler(async (req, res, next) => {
   const vehicles = await Vehicle.find();
-  
+
   res.status(200).json({
     success: true,
     count: vehicles.length,
@@ -115,5 +115,51 @@ exports.deleteVehicle = asyncHandler(async (req, res, next) => {
   res.status(200).json({
     success: true,
     data: {},
+  });
+});
+
+// @desc GET vehicles by category
+// @route GET /api/v1/vehicles/availability/status
+// @access Private/Admin
+exports.getVehiclesAvailability = asyncHandler(async (req, res, next) => {
+  // const vehicle = await Vehicle.findById(req.params.id);
+  const status = req.params.status;
+
+  const vehicles = await Vehicle.aggregate([
+    {
+      $group: {
+        _id: "$vehicle_category",
+        available: {
+          $sum: {
+            $cond: [{ $eq: ["$current_status", "Available"] }, 1, 0]
+          }
+        },
+        notAvailable: {
+          $sum: {
+            $cond: [{ $eq: ["$current_status", "not available"] }, 1, 0]
+          }
+        },
+        parking: {
+          $sum: {
+            $cond: [{ $eq: ["$current_status", "parking"] }, 1, 0]
+          }
+        }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        category: "$_id",
+        available: 1,
+        notAvailable: 1,
+        parking: 1
+      }
+    }
+  ]);
+
+  res.status(200).json({
+    success: true,
+    count: vehicles.length,
+    data: vehicles,
   });
 });

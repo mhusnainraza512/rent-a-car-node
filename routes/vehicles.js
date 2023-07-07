@@ -6,6 +6,7 @@ const {
   getVehicle,
   updateVehicle,
   deleteVehicle,
+  getVehiclesAvailability,
 } = require("../controllers/vehicles");
 
 const router = express.Router({ mergeParams: true });
@@ -22,5 +23,9 @@ router
   .get(getVehicle)
   .put(protect, authorize("admin"), updateVehicle)
   .delete(protect, authorize("admin"), deleteVehicle);
+
+  router
+  .route("/availability/list")
+  .get(getVehiclesAvailability)
 
 module.exports = router;

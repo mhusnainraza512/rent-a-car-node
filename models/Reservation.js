@@ -1,6 +1,15 @@
 const mongoose = require("mongoose");
 
 const ReservationSchema = mongoose.Schema({
+  name: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+  mobile: {
+    type: String,
+  },
   pickup_location: {
     type: String,
   },
@@ -37,7 +46,7 @@ const ReservationSchema = mongoose.Schema({
   customer_id: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
-    required: true,
+    required: false,
   },
   vehicle_id: {
     type: mongoose.Schema.ObjectId,

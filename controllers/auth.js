@@ -9,7 +9,7 @@ const sendEmail = require("../utils/sendEmail");
 // @route Post /api/v1/auth/register
 // @access Public
 exports.register = asyncHandler(async (req, res, next) => {
-  var { name, email, password, role } = req.body;
+  var { name, email, password, role, phone } = req.body;
 
   if (role == undefined || role == "employee" || role == "customer") {
     name = req.body.name_eng;

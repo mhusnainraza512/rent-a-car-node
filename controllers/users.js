@@ -2,6 +2,7 @@ const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const User = require("../models/User.js");
 const UserDetail = require("../models/UserDetail.js");
+const Vehicle = require("../models/Vehicle.js");
 const mongoose = require("mongoose");
 const { Types } = mongoose;
 
@@ -120,9 +121,18 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
 exports.deleteUser = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
+
   if (!user) {
     return next(
       new ErrorResponse(`User not found with id of ${req.params.id}`, 400)
+    );
+  }
+
+  const vehicles = await Vehicle.find({user: req.params.id});
+
+  if (vehicles.length > 0) {
+    return next(
+      new ErrorResponse(`You are not able to delete this user because this user is using in vehicle model`, 400)
     );
   }
 

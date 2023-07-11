@@ -1,6 +1,7 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const Make = require("../models/Make");
+const Vehicle = require("../models/Vehicle.js");
 
 // @desc Get all makes
 // @route Get /api/v1/makes
@@ -107,6 +108,14 @@ exports.deleteMake = asyncHandler(async (req, res, next) => {
         `User ${req.params.id} is not authorized to delete this make`,
         401
       )
+    );
+  }
+
+  const vehicles = await Vehicle.find({make_id: req.params.id});
+
+  if (vehicles.length > 0) {
+    return next(
+      new ErrorResponse(`You are not able to delete this make because this make is using in vehicle model`, 400)
     );
   }
 

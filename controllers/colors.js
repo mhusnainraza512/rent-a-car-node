@@ -1,6 +1,7 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const Color = require("../models/Color");
+const Vehicle = require("../models/Vehicle.js");
 
 // @desc Get all colors
 // @route Get /api/v1/colors
@@ -107,6 +108,14 @@ exports.deleteColor = asyncHandler(async (req, res, next) => {
         `User ${req.params.id} is not authorized to delete this color`,
         401
       )
+    );
+  }
+
+  const vehicles = await Vehicle.find({color_id: req.params.id});
+
+  if (vehicles.length > 0) {
+    return next(
+      new ErrorResponse(`You are not able to delete this color because this color is using in vehicle model`, 400)
     );
   }
 

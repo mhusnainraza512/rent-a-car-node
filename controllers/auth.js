@@ -11,9 +11,9 @@ const sendEmail = require("../utils/sendEmail");
 exports.register = asyncHandler(async (req, res, next) => {
   var { name, email, password, role, phone } = req.body;
 
-  if (role == undefined || role == "employee" || role == "customer") {
-    name = req.body.name_eng;
-  }
+  // if (role == undefined || role == "employee" || role == "customer") {
+  //   name = req.body.name_eng;
+  // }
 
   // create user
   const user = await User.create({

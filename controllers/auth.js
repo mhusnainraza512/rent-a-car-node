@@ -21,6 +21,7 @@ exports.register = asyncHandler(async (req, res, next) => {
     email,
     password,
     role,
+    phone
   });
 
   if (role == undefined || role == "employee" || role == "customer") {

@@ -7,7 +7,9 @@ const Vehicle = require("../models/Vehicle.js");
 // @route Get /api/v1/models
 // @access Private/Admin
 exports.getModels = asyncHandler(async (req, res, next) => {
-  const models = await Model.find().populate("make_id");
+  const models = await Model.find().sort({
+    createdAt: -1,
+  })
   
   res.status(200).json({
     success: true,

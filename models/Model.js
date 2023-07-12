@@ -17,4 +17,9 @@ const ModelSchema = mongoose.Schema({
   }
 });
 
+ModelSchema.pre(/^find/, function (next) {
+  this.populate(['make_id']);
+  next();
+});
+
 module.exports = mongoose.model("Model", ModelSchema);

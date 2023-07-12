@@ -6,7 +6,9 @@ const Vehicle = require("../models/Vehicle");
 // @route Get /api/v1/vehicles
 // @access Private/Admin
 exports.getVehicles = asyncHandler(async (req, res, next) => {
-  const vehicles = await Vehicle.find();
+  const vehicles = await Vehicle.find().sort({
+    createdAt: -1,
+  });
 
   res.status(200).json({
     success: true,

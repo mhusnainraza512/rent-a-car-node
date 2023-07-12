@@ -22,6 +22,7 @@ const models = require("./routes/models");
 const colors = require("./routes/colors");
 const vehicles = require("./routes/vehicles");
 const reservations = require("./routes/reservations");
+const payment_received = require("./routes/payment_received");
 
 // load env vars
 dotenv.config({ path: "./config/.env" });
@@ -87,6 +88,7 @@ app.use("/api/v1/models", models);
 app.use("/api/v1/colors", colors);
 app.use("/api/v1/vehicles", vehicles);
 app.use("/api/v1/reservations", reservations);
+app.use("/api/v1/payment-received", payment_received);
 
 app.use(errorHandler);
 

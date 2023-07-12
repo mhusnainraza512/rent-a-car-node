@@ -7,7 +7,9 @@ const Vehicle = require("../models/Vehicle.js");
 // @route Get /api/v1/colors
 // @access Private/Admin
 exports.getColors = asyncHandler(async (req, res, next) => {
-  const colors = await Color.find();
+  const colors = await Color.find().sort({
+    createdAt: -1,
+  });;
   
   res.status(200).json({
     success: true,

@@ -1,26 +1,26 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
-const PaymentReceived = require("../models/PaymentReceived");
+const Invoice = require("../models/Invoice");
 
-// @desc Get all payment_receiveds
-// @route Get /api/v1/payment-receiveds
+// @desc Get all invoices
+// @route Get /api/v1/invoices
 // @access Private/Admin
-exports.getPaymentReceiveds = asyncHandler(async (req, res, next) => {
-  const payment_receiveds = await PaymentReceived.find().sort({
+exports.getInvoices = asyncHandler(async (req, res, next) => {
+  const invoices = await Invoice.find().sort({
     createdAt: -1,
   });
   
   res.status(200).json({
     success: true,
-    count: payment_receiveds.length,
-    payment_receiveds: payment_receiveds,
+    count: invoices.length,
+    invoices: invoices,
   });
 });
 
 // @desc Create make
-// @route Post /api/v1/payment_receiveds
+// @route Post /api/v1/invoices
 // @access Private/Admin
-exports.createPaymentReceived = asyncHandler(async (req, res, next) => {
+exports.createInvoice = asyncHandler(async (req, res, next) => {
   // make sure user is admin
   if (req.user.role != "admin") {
     return next(
@@ -31,7 +31,7 @@ exports.createPaymentReceived = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const make = await PaymentReceived.create(req.body);
+  const make = await Invoice.create(req.body);
 
   res.status(201).json({
     success: true,
@@ -40,14 +40,14 @@ exports.createPaymentReceived = asyncHandler(async (req, res, next) => {
 });
 
 // @desc Get single make
-// @route Get /api/v1/payment_receiveds/:id
+// @route Get /api/v1/invoices/:id
 // @access Private/Admin
-exports.getPaymentReceived = asyncHandler(async (req, res, next) => {
-  const make = await PaymentReceived.findById(req.params.id);
+exports.getInvoice = asyncHandler(async (req, res, next) => {
+  const make = await Invoice.findById(req.params.id);
 
   if (!make) {
     return next(
-      new ErrorResponse(`PaymentReceived not found with id of ${req.params.id}`, 400)
+      new ErrorResponse(`Invoice not found with id of ${req.params.id}`, 400)
     );
   }
 
@@ -58,18 +58,18 @@ exports.getPaymentReceived = asyncHandler(async (req, res, next) => {
 });
 
 // @desc Update make
-// @route PUT /api/v1/payment_receiveds/:id
+// @route PUT /api/v1/invoices/:id
 // @access Private/Admin
-exports.updatePaymentReceived = asyncHandler(async (req, res, next) => {
-  let make = await PaymentReceived.findById(req.params.id);
+exports.updateInvoice = asyncHandler(async (req, res, next) => {
+  let make = await Invoice.findById(req.params.id);
 
   if (!make) {
     return next(
-      new ErrorResponse(`PaymentReceived not found with id of ${req.params.id}`, 400)
+      new ErrorResponse(`Invoice not found with id of ${req.params.id}`, 400)
     );
   }
 
-  // make sure user is bootcamp owner
+  // make sure user is invoice owner
   if (req.user.role != "admin") {
     return next(
       new ErrorResponse(
@@ -79,7 +79,7 @@ exports.updatePaymentReceived = asyncHandler(async (req, res, next) => {
     );
   }
 
-  make = await PaymentReceived.findOneAndUpdate({ _id: req.params.id }, req.body, {
+  make = await Invoice.findOneAndUpdate({ _id: req.params.id }, req.body, {
     new: true,
     runValidators: true,
   });
@@ -91,14 +91,14 @@ exports.updatePaymentReceived = asyncHandler(async (req, res, next) => {
 });
 
 // @desc Delete make
-// @route DELETE /api/v1/payment_receiveds/:id
+// @route DELETE /api/v1/invoices/:id
 // @access Private/Admin
-exports.deletePaymentReceived = asyncHandler(async (req, res, next) => {
-  const make = await PaymentReceived.findById(req.params.id);
+exports.deleteInvoice = asyncHandler(async (req, res, next) => {
+  const make = await Invoice.findById(req.params.id);
 
   if (!make) {
     return next(
-      new ErrorResponse(`PaymentReceived not found with id of ${req.params.id}`, 400)
+      new ErrorResponse(`Invoice not found with id of ${req.params.id}`, 400)
     );
   }
 

@@ -1,6 +1,7 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const Reservation = require("../models/Reservation");
+const Wallet = require("../models/Wallet");
 
 // @desc Get all reservations
 // @route Get /api/v1/reservations
@@ -49,6 +50,23 @@ exports.createReservation = asyncHandler(async (req, res, next) => {
   }
 
   const reservation = await Reservation.create(req.body);
+  let wallet = await Wallet.findOne({customer_id: req.body.customer_id});
+  if(wallet){
+    req.body.balance = wallet.balance + req.body.reservation_amount;
+    reservation = await Wallet.findOneAndUpdate(
+      { customer_id: req.body.customer_id },
+      req.body.balance,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+  }else{
+    wallet = await Wallet.create({
+      customer_id: req.body.customer_id,
+      balance: req.body.reservation_amount
+    })
+  }
 
   res.status(201).json({
     success: true,

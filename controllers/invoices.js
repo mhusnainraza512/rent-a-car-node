@@ -1,6 +1,8 @@
 const ErrorResponse = require("../utils/errorResponse");
 const asyncHandler = require("../middleware/async");
 const Invoice = require("../models/Invoice");
+const Wallet = require("../models/Wallet");
+const Reservation = require("../models/Reservation");
 
 // @desc Get all invoices
 // @route Get /api/v1/invoices
@@ -31,11 +33,23 @@ exports.createInvoice = asyncHandler(async (req, res, next) => {
     );
   }
 
-  const make = await Invoice.create(req.body);
+  const invoice = await Invoice.create(req.body);
+
+  let reservation = await Reservation.findOne({_id: req.body.reservation_id});
+
+  if(reservation){
+    req.body.reservation_amount = req.body.remaining_amount;
+    await Reservation.findOneAndUpdate({_id: req.body.reservation_id}, req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+  }
 
   res.status(201).json({
     success: true,
-    data: make,
+    data: invoice,
   });
 });
 

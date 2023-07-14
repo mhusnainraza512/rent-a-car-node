@@ -9,6 +9,10 @@ const WalletSchema = mongoose.Schema({
     ref: "User",
     required: [true, "Add Customer ID"],
   },
+  reservation_id: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Reservation",
+  },
   createdAt: {
     type: Date,
     default: Date.now,

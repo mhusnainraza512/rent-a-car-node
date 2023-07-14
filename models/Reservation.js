@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Wallet = require("./Wallet");
 
 const ReservationSchema = mongoose.Schema({
   name: {
@@ -43,6 +44,9 @@ const ReservationSchema = mongoose.Schema({
   notes: {
     type: String,
   },
+  reservation_amount: {
+    type: String,
+  },
   customer_id: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
@@ -59,7 +63,7 @@ const ReservationSchema = mongoose.Schema({
   },
 });
 
-ReservationSchema.pre(/^find/, function (next) {
+ReservationSchema.pre(/^find/, async function (next) {
   this.populate(['customer_id','vehicle_id']);
   next();
 });
